@@ -36,6 +36,15 @@ $sexe = trim(htmlspecialchars($_POST['sexe']));
 $ville = trim(htmlspecialchars($_POST['ville']));
 $loisir = trim(htmlspecialchars($_POST['loisir']));
 
+// check fields aren't empty after trimming
+if (empty($nom) || empty($email) || empty($password) || empty($sexe) || empty($ville) || empty($loisir)) {
+    header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request", true, 400);
+    $error = "400 Bad Request: All fields must be non-empty.";
+    echo $error;
+    header("Location: ./index.html?message=" . urlencode($error));
+    exit;
+}
+
 if (strlen($nom) < 2 || strlen($nom) > 16) {
     header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request", true, 400);
     $error = "400 Bad Request: 'nom' must be between 2 and 16 characters.";
